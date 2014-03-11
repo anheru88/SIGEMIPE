@@ -9,7 +9,7 @@
 		"barryvdh/laravel-vendor-cleanup": "1.*"
 	},
 	"require-dev" : {
-		"way/generators": "1.x",
+		"way/generators": "1.*",
 		"barryvdh/laravel-debugbar": "1.*",
 		"barryvdh/laravel-migration-generator": "dev-master"
 	},

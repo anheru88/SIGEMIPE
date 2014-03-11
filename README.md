@@ -1,7 +1,7 @@
 Laravel4-Starter-Template
 ==========================
 
-Laravel4 Starter Template es una aplicación simple que incorporta, varios paquetes para los desarrolladores que estan comenzando con Laravel 4, o en su defecto una aplicacion que viene pre configurada para comenzar a trabajar con laravel4.
+Laravel4 Starter Template es una aplicación simple que incorpora, varios paquetes para los desarrolladores que estan comenzando con Laravel 4, o en su defecto una aplicacion que viene pre configurada para comenzar a trabajar con laravel4.
 
 Esta aplicación esta basada en [Laravel-4-Bootstrap-Starter-Site](https://github.com/anheru88/Laravel-4-Bootstrap-Starter-Site) pero esta pensada para la gente de habla hispana, esta aplicación cuenta con algunos paquetes que deben ser fundamentales a la hora de desarrollar en laravel.
 
