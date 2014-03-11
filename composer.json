@@ -8,7 +8,8 @@
 		"barryvdh/laravel-vendor-cleanup": "1.*"
 	},
 	"require-dev" : {
-		"way/generators": "dev-master"
+		"way/generators": "dev-master",
+		"barryvdh/laravel-debugbar": "1.*"
 	},
 	"autoload": {
 		"classmap": [
