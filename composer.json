@@ -9,7 +9,8 @@
 	},
 	"require-dev" : {
 		"way/generators": "dev-master",
-		"barryvdh/laravel-debugbar": "1.*"
+		"barryvdh/laravel-debugbar": "1.*",
+		"barryvdh/laravel-migration-generator": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
