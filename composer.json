@@ -11,7 +11,8 @@
 	"require-dev" : {
 		"way/generators": "1.*",
 		"barryvdh/laravel-debugbar": "1.*",
-		"barryvdh/laravel-migration-generator": "dev-master"
+		"barryvdh/laravel-migration-generator": "dev-master",
+		"orangehill/iseed": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

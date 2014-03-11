@@ -109,6 +109,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Barryvdh\VendorCleanup\VendorCleanupServiceProvider',
 		'Barryvdh\MigrationGenerator\MigrationGeneratorServiceProvider',
+		'Orangehill\Iseed\IseedServiceProvider',
 	),
 
 	/*
