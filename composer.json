@@ -3,13 +3,16 @@
 	"description": "The Laravel Framework. And Packages for starter development",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
+	 "version": "0.0.6",
 	"require": {
 		"laravel/framework": "4.1.*",
 		"barryvdh/laravel-vendor-cleanup": "1.*"
 	},
 	"require-dev" : {
-		"way/generators": "dev-master",
-		"barryvdh/laravel-debugbar": "1.*"
+		"way/generators": "1.*",
+		"barryvdh/laravel-debugbar": "1.*",
+		"barryvdh/laravel-migration-generator": "dev-master",
+		"orangehill/iseed": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -24,12 +27,12 @@
 	"scripts": {
 		"post-install-cmd": [
 			"php artisan clear-compiled",
-			"php artisan optimize",
+			"php artisan optimize --force",
 			"php artisan vendor-cleanup"
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
-			"php artisan optimize",
+			"php artisan optimize --force",
 			"php artisan vendor-cleanup"
 		],
 		"post-create-project-cmd": [
