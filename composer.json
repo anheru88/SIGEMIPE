@@ -3,7 +3,7 @@
 	"description": "The Laravel Framework. And Packages for starter development",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
-	 "version": "0.0.4",
+	 "version": "0.0.6",
 	"require": {
 		"laravel/framework": "4.1.*",
 		"barryvdh/laravel-vendor-cleanup": "1.*"
