@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateEstadoTable extends Migration {
+class CreateAreasTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,13 @@ class CreateEstadoTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('estado', function(Blueprint $table) {
+		Schema::create('areas', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('nombre');
+			$table->unsignedInteger('estado');
+			$table->foreign('estado')
+				  ->references('id')
+				  ->on('estados');
 			$table->timestamps();
 		});
 	}
@@ -27,7 +31,7 @@ class CreateEstadoTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('estado');
+		Schema::drop('areas');
 	}
 
 }
