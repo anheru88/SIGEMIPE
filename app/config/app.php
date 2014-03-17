@@ -111,6 +111,7 @@ return array(
 		'Barryvdh\VendorCleanup\VendorCleanupServiceProvider',
 		'Barryvdh\MigrationGenerator\MigrationGeneratorServiceProvider',
 		'Orangehill\Iseed\IseedServiceProvider',
+		'Roumen\Asset\AssetServiceProvider',
 
 	),
 
@@ -177,7 +178,7 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-
+		'Asset'			  => 'Roumen\Asset\Asset',
 	),
 
 );

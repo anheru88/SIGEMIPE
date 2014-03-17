@@ -6,7 +6,8 @@
 	 "version": "0.0.6",
 	"require": {
 		"laravel/framework": "4.1.*",
-		"barryvdh/laravel-vendor-cleanup": "1.*"
+		"barryvdh/laravel-vendor-cleanup": "1.*",
+		"roumen/asset": "dev-master"
 	},
 	"require-dev" : {
 		"way/generators": "1.*",
