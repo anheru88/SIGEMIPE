@@ -11,7 +11,16 @@
 |
 */
 
-Route::get('/', function()
+Route::get('profile', function(){
+	return "Welcome " . Auth::user()->username . " your email is " . Auth::user()->email;
+})->before('auth');;
+
+Route::get('login', 'AuthenticationController@create');
+Route::get('logout', 'AuthenticationController@destroy');
+Route::resource('Authentication' , 'AuthenticationController', ['only' => ['store', 'create', 'destroy']]);
+
+
+Route::get('/', ['as' => 'home',  function()
 {
 	return View::make('hello');
-});
+}]);
