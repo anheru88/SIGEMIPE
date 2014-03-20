@@ -9,7 +9,7 @@ class UsuarioTableSeeder extends Seeder {
 
 		$usuario = array(
 			['username' => 'admin', 'email' => 'admin@hotmail.com', 'password' => Hash::make('admin'), 'rol' => 'Admin', 'activo' => '1', 'estado' => '1', 'created_at' =>  new DateTime(), 'updated_at' =>  new DateTime()],
-			['username' => 'user', 'email' => 'user@hotmail.com', 'password' => Hash::make('User'), 'rol' => 'Usuario', 'activo' => '1', 'estado' => '1', 'created_at' =>  new DateTime(), 'updated_at' =>  new DateTime()]
+			['username' => 'usuario', 'email' => 'user@hotmail.com', 'password' => Hash::make('usuario'), 'rol' => 'Usuario', 'activo' => '1', 'estado' => '1', 'created_at' =>  new DateTime(), 'updated_at' =>  new DateTime()]
 		);
 
 		// Uncomment the below to run the seeder
