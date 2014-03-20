@@ -15,12 +15,17 @@ Route::get('profile', function(){
 	return "Welcome " . Auth::user()->username . " your email is " . Auth::user()->email;
 })->before('auth');;
 
-Route::get('login', 'AuthenticationController@create');
-Route::get('logout', 'AuthenticationController@destroy');
+Route::get('login', 'AuthenticationController@create')->before('guest');
+Route::get('logout',['as' => 'logout', 'uses' => 'AuthenticationController@destroy'])->before('auth');
+
 Route::resource('Authentication' , 'AuthenticationController', ['only' => ['store', 'create', 'destroy']]);
 
+Route::group(array('before' => 'auth'), function(){
+	Route::resource('Area', 'AreaController');
 
-Route::get('/', ['as' => 'home',  function()
-{
-	return View::make('hello');
-}]);
+	Route::get('/', ['as' => 'home',  function()
+	{
+		return View::make('hello');
+	}]);
+
+});
