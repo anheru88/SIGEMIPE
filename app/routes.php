@@ -16,12 +16,14 @@ Route::get('profile', function(){
 })->before('auth');;
 
 Route::get('login', 'AuthenticationController@create')->before('guest');
+
 Route::get('logout',['as' => 'logout', 'uses' => 'AuthenticationController@destroy'])->before('auth');
 
-Route::resource('Authentication' , 'AuthenticationController', ['only' => ['store', 'create', 'destroy']]);
+Route::resource('authentication' , 'AuthenticationController', ['only' => ['store', 'create', 'destroy']]);
 
 Route::group(array('before' => 'auth'), function(){
-	Route::resource('Area', 'AreaController');
+	
+	Route::resource('area', 'AreaController');
 
 	Route::get('/', ['as' => 'home',  function()
 	{
@@ -29,3 +31,4 @@ Route::group(array('before' => 'auth'), function(){
 	}]);
 
 });
+
