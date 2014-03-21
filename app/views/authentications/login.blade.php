@@ -31,7 +31,7 @@ SIGEMIPE - ADMIN - LOGIN
 					<div class="widget-content">
 						<div class="padd">
 							<!-- Login form -->
-							{{ Form::open(array('route' => 'Authentication.store', 'class' => 'form-horizontal'))}}
+							{{ Form::open(array('route' => 'authentication.store', 'class' => 'form-horizontal'))}}
 								<!-- Email -->
 								<div class="form-group">
 								{{ Form::label('username', 'Usuario', array('class' => 'control-label col-lg-3')) }}
@@ -66,5 +66,5 @@ SIGEMIPE - ADMIN - LOGIN
 </div>
 @stop
 
-@section('script')
+@section('scripts')
 @stop
