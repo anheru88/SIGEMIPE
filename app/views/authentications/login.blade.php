@@ -4,6 +4,8 @@
 {{ Asset::add('css/bootstrap.css')}}
 {{ Asset::add('css/font-awesome.css')}}
 {{ Asset::add('css/style.css')}}
+{{ Asset::add('js/jquery.js') }}
+{{ Asset::add('js/bootstrap.js') }}
 @stop
 
 @section('title')
@@ -18,7 +20,6 @@ SIGEMIPE - ADMIN - LOGIN
 <!-- Form area -->
 <div class="admin-form">
 	<div class="container">
-
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Widget starts -->
@@ -30,27 +31,34 @@ SIGEMIPE - ADMIN - LOGIN
 
 					<div class="widget-content">
 						<div class="padd">
+							@if(Session::get('flash_message'))
+							<div class="alert alert-danger alert-dismissable">
+							 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								{{ Session::get('flash_message') }}
+							</div>
+							@endif
+
 							<!-- Login form -->
 							{{ Form::open(array('route' => 'authentication.store', 'class' => 'form-horizontal'))}}
-								<!-- Email -->
-								<div class="form-group">
+							<!-- Email -->
+							<div class="form-group">
 								{{ Form::label('username', 'Usuario', array('class' => 'control-label col-lg-3')) }}
-									<div class="col-lg-9">
+								<div class="col-lg-9">
 									{{ Form::text('username', null, array('placeholder' => 'Usuario', 'id' => "inputEmail", 'class' =>"form-control")) }}
-									</div>
 								</div>
-								<!-- Password -->
-								<div class="form-group">
-									{{ Form::label('password', 'Password', array('class' => 'control-label col-lg-3')) }}
-									<div class="col-lg-9">
-										{{ Form::password('password', array('placeholder' => 'Password', 'id' => "inputPassword", 'class' =>"form-control")) }}
-									</div>
+							</div>
+							<!-- Password -->
+							<div class="form-group">
+								{{ Form::label('password', 'Password', array('class' => 'control-label col-lg-3')) }}
+								<div class="col-lg-9">
+									{{ Form::password('password', array('placeholder' => 'Password', 'id' => "inputPassword", 'class' =>"form-control")) }}
 								</div>
-								<div class="col-lg-9 col-lg-offset-2">
-									{{ Form::submit('Ingresar', array('class' => 'btn btn-success')) }}
-									<button type="reset" class="btn btn-default" id="borrar">Borrar</button>
-								</div>
-								<br>
+							</div>
+							<div class="col-lg-9 col-lg-offset-2">
+								{{ Form::submit('Ingresar', array('class' => 'btn btn-success')) }}
+								<button type="reset" class="btn btn-default" id="borrar">Borrar</button>
+							</div>
+							<br>
 							{{ Form::close() }}
 
 						</div>
@@ -67,4 +75,5 @@ SIGEMIPE - ADMIN - LOGIN
 @stop
 
 @section('scripts')
+	{{ Asset::js() }}
 @stop
