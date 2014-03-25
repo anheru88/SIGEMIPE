@@ -27,7 +27,7 @@ class AuthenticationController extends BaseController {
 			]);
 
 		if($attempt){
-			if(Auth::user->estado == 1){
+			if(Auth::user()->estado == 1){
 				if((boolean) Auth::user()->activo){
 					return Redirect::intended('/');
 				}else{
