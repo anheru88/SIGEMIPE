@@ -26,17 +26,17 @@ class AuthenticationController extends BaseController {
 			'password' => $input['password']
 		]);
 
-		//dd((boolean) Auth::user()->activo);
-
 		if($attempt){
 			if((boolean) Auth::user()->activo){
 				return Redirect::intended('/');
 			}else{
-				dd('problem1');
+				Auth::logout();
+				return Redirect::back()->with('flash_message', 'Usuario no activo. Comuniquese con el Administrador del Sistema')
+									   ->withInput();
 			}
-			
 		}else{
-			dd('problem2');	
+			return Redirect::back()->with('flash_message', 'Credenciales Incorrectas')->withInput();
+								
 		}		
 	}
 
