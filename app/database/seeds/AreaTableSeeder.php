@@ -11,7 +11,7 @@ class AreaTableSeeder extends Seeder {
 
 		$faker = Faker::create();
 
-		foreach (range(1, 20) as $index) {
+		foreach (range(1, 100) as $index) {
 			Area::create([
 				'nombre' => $faker->sentence(6),
 				'estado' => $faker->randomNumber(1, 3)

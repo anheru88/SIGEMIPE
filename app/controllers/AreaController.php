@@ -2,6 +2,7 @@
 
 class AreaController extends BaseController {
 
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -9,7 +10,8 @@ class AreaController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('area.index');
+		$areas = Area::where('estado', '=', '1')->paginate(10);
+		return View::make('area.index', compact('areas'));
 	}
 
 	/**
@@ -19,7 +21,7 @@ class AreaController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('areas.create');
+        return View::make('areas.created');
 	}
 
 	/**
@@ -29,7 +31,23 @@ class AreaController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$input = Input::all();
+		$input['estado'] = 1;
+		
+		$validation = Validator::make($input, Area::$rules);
+
+		if($validation->passes())
+		{
+			$area = new Area;
+			$area->create($input);
+
+			return Redirect::back();
+
+		}else{
+
+			$messages = $validation->messages();
+			return Redirect::back();
+		}
 	}
 
 	/**
@@ -40,7 +58,14 @@ class AreaController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('areas.show');
+       $area = Area::find($id);
+
+       if((is_null($area)) or ($area->estado != 1))
+       {
+       		return "Este elemento no existe";
+       }
+
+       return $area->toJson();
 	}
 
 	/**
@@ -51,7 +76,15 @@ class AreaController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('areas.edit');
+		$area = Area::find($id);
+
+		if(is_null($area))
+		{
+			return Redirect::route('area.index');
+		}
+        
+        //return Redirect::back()->with('edit', $area);
+        return View::make('area.edit', compact('area'));
 	}
 
 	/**
@@ -62,7 +95,19 @@ class AreaController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$input = array_except(Input::all(), '_method');
+		$validation = Validator::make($input, Area::$rules);
+
+		if($validation->passes())
+		{
+
+			$area = Area::find($id);
+			$area->update($input);
+
+			return Redirect::back();
+		}
+		
+		return Redirect::home();
 	}
 
 	/**
@@ -73,7 +118,10 @@ class AreaController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$area = Area::find($id);
+		$area->estado = 3;
+		$area->save();
+		return Redirect::back();
 	}
 
 }
