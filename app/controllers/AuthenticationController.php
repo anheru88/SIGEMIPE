@@ -9,7 +9,7 @@ class AuthenticationController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('authentications.login');
+		return View::make('authentications.login');
 	}
 
 	/**
@@ -24,19 +24,25 @@ class AuthenticationController extends BaseController {
 		$attempt = Auth::attempt([
 			'username' => $input['username'],
 			'password' => $input['password']
-		]);
+			]);
 
 		if($attempt){
-			if((boolean) Auth::user()->activo){
-				return Redirect::intended('/');
+			if(Auth::user->estado == 1){
+				if((boolean) Auth::user()->activo){
+					return Redirect::intended('/');
+				}else{
+					Auth::logout();
+					return Redirect::back()->with('flash_message', '<strong>Usuario no Activo</strong>. <br> Comuniquese con el Administrador del Sistema')
+					->withInput();
+				}
 			}else{
 				Auth::logout();
-				return Redirect::back()->with('flash_message', 'Usuario no activo. Comuniquese con el Administrador del Sistema')
-									   ->withInput();
+				return Redirect::back()->with('flash_message',  '<strong> Comuniquese con el Administrador del Sistema </strong>.')
+					->withInput();
 			}
 		}else{
-			return Redirect::back()->with('flash_message', 'Credenciales Incorrectas')->withInput();
-								
+			return Redirect::back()->with('flash_message', '<strong> Credenciales Incorrectas </strong>. <br> Comuniquese con el Administrador del Sistema')->withInput();
+
 		}		
 	}
 
