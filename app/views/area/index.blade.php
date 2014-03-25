@@ -228,16 +228,26 @@ AREA - SIGEMIPE
 	</div>
 </div>
 
+<div id="div_eliminar" style="display:none">
+{{ Form::open(array('method' => 'DELETE', 'route' => array('area.destroy'))) }}
+{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
+{{ Form::close()}}
+</div>
+
+
 @stop
 
 
 @section('scripts')
 {{ Asset::js() }}
 <script type="text/javascript">
+
+	var URL = '{{ route('area.index') }}';
+
 	$('.btn-warning').on('click', function(){
 		var id = $(this).data('id');
 		var nombre = $(this).data('nombre');
-		$('#ModalEditar form').attr('action', document.URL+'/'+id);
+		$('#ModalEditar form').attr('action', URL+'/'+id);
 		$('#id_editar').val(id);
 		$('#nombre_editar').val(nombre);
 		$('#ModalEditar').modal('show');
@@ -252,7 +262,8 @@ AREA - SIGEMIPE
 					label : "Confirmar",
 					className :"btn-danger",
 					callback: function(){
-						
+						$("#div_eliminar form").attr('action', URL +'/'+id);
+						$("#div_eliminar form").submit();
 					}
 				},
 				no : {
@@ -267,6 +278,6 @@ AREA - SIGEMIPE
 
 			console.log(result);
 		});*/
-	});
+});
 </script>
 @stop
