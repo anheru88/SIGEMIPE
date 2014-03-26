@@ -15,16 +15,6 @@ class AreaController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-        return View::make('areas.created');
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
@@ -34,57 +24,22 @@ class AreaController extends BaseController {
 		$input = Input::all();
 		$input['estado'] = 1;
 		
-		$validation = Validator::make($input, Area::$rules);
+		$validation = Validator::make($input, Area::$rules, Area::$messages);
 
 		if($validation->passes())
 		{
 			$area = new Area;
 			$area->create($input);
 
-			return Redirect::back();
+			return Redirect::route('areas.index')
+					->with('Guardado', 'Se creo una nueva area.');
 
 		}else{
-
 			$messages = $validation->messages();
-			return Redirect::back();
+			return Redirect::route('areas.index')
+			->withInput()
+			->withErrors($validation);
 		}
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-       $area = Area::find($id);
-
-       if((is_null($area)) or ($area->estado != 1))
-       {
-       		return "Este elemento no existe";
-       }
-
-       return $area->toJson();
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		$area = Area::find($id);
-
-		if(is_null($area))
-		{
-			return Redirect::route('area.index');
-		}
-        
-        //return Redirect::back()->with('edit', $area);
-        return View::make('area.edit', compact('area'));
 	}
 
 	/**
