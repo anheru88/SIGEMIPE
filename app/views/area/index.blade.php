@@ -8,6 +8,7 @@
 {{ Asset::add('js/jquery.js') }}
 {{ Asset::add('js/bootstrap.js') }}
 {{ Asset::add('js/bootbox.min.js') }}
+{{ Asset::add('js/noty/packaged/jquery.noty.packaged.min.js') }}
 {{ Asset::add('js/custom.js') }}
 
 @stop
@@ -23,55 +24,7 @@ AREA - SIGEMIPE
 @include('layouts.navbar')
 
 @section('header')
-<!-- Header Starts -->
-<header>
-	<!-- Container -->
-	<div class="container">
-		<!-- Row -->
-		<div class="row">
-			<!-- Logo Section -->
-			<div class="col-md-4">
-				<!-- Logo -->
-				<div class="logo">
-					<h1>
-						<a href="#">SIGEMIPE</a>
-					</h1>
-					<p class="meta">Sistema de Gestion Misional Personeria</p>
-				</div>
-				<!-- Ends Logo -->
-			</div>
-			<!-- Ends Logo Section -->
-			<!-- Button Section -->
-			<div class="col-md-4">
-				<!-- Buttons -->
-				<ul class="nav nav-pills">
-					<li class="dropdown dropdown-big">
-						<a href="#">
-							<i class="icon-envelope-alt"></i>
-							Mensajes
-						</a>
-					</li>
-					<li class="dropdown dropdown-big">
-						<a href="#">
-							<i class="icon-envelope-alt"></i>
-							Mensajes
-						</a>
-					</li>
-					<li class="dropdown dropdown-big">
-						<a href="#">
-							<i class="icon-envelope-alt"></i>
-							Mensajes
-						</a>
-					</li>
-				</ul>
-				<!-- Ends Buttons -->
-			</div>
-			<!-- Ends Button Sections -->
-		</div>		
-		<!-- Fin Row -->
-	</div>
-	<!-- Fin Continer -->
-</header>
+@include('layouts.header')
 @stop
 
 @section('content')
@@ -97,7 +50,7 @@ AREA - SIGEMIPE
 				<!-- Divider -->
 				<span class="divider">/</span>
 
-				<a href="" class="bread-current">Área</a>
+				<a href="" class="bread-current">Áreas</a>
 
 			</div>
 			<div class="clearfix"></div>
@@ -177,18 +130,26 @@ AREA - SIGEMIPE
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">Crear Area</h4>
 			</div>
-			<form class="form-horizontal" role="form" accept-charset="UTF-8" method="POST" action="{{ route('area.store') }}">
+			<form class="form-horizontal" role="form" accept-charset="UTF-8" method="POST" action="{{ route('areas.store') }}">
 				<div class="modal-body">
 					{{ Form::token() }}
+
+					@if ($errors->any())
+						<div class="alert alert-danger alert-dismissable">
+						 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+						</div>
+					@endif
+
 					<div class="form-group">
-						<label for="nombre" class="col-lg-4 control-label">Nombre</label>
+					{{ Form::label('nombre','Nombre', array('class' => 'col-lg-4 control-label'))}}
 						<div class="col-lg-8">
-							<input type="text" class="form-control" placeholder="Nombre del Area" name="nombre">
+						{{ Form::text('nombre', null, array('placeholder' => 'Nombre del Area', 'class' => 'form-control')) }}						
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Crear</button>
+					{{ Form::submit('Crear', array('class' => 'btn btn-success')) }} 
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 				</div>
 			</form>
@@ -204,7 +165,7 @@ AREA - SIGEMIPE
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">Editar Area</h4>
 			</div>
-			{{ Form::model($areas, array('method' => 'PATCH', 'route' => array('area.update'), 'class' => 'form-horizontal')) }}
+			{{ Form::model($areas, array('method' => 'PATCH', 'route' => array('areas.update'), 'class' => 'form-horizontal')) }}
 			<div class="modal-body">
 				<div class="form-group">
 					<label for="id" class="col-lg-4 control-label">Id</label>
@@ -229,9 +190,9 @@ AREA - SIGEMIPE
 </div>
 
 <div id="div_eliminar" style="display:none">
-{{ Form::open(array('method' => 'DELETE', 'route' => array('area.destroy'))) }}
-{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
-{{ Form::close()}}
+	{{ Form::open(array('method' => 'DELETE', 'route' => array('areas.destroy'))) }}
+	{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
+	{{ Form::close()}}
 </div>
 
 
@@ -242,7 +203,15 @@ AREA - SIGEMIPE
 {{ Asset::js() }}
 <script type="text/javascript">
 
-	var URL = '{{ route('area.index') }}';
+	@if ($errors->any())
+		$('#ModalCrear').modal('show');
+	@endif
+
+	@if(Session::get('Guardado'))
+		var n = noty({layout : 'topCenter', type : 'success', text: 'Area Creada Con exito', timeout : 1000});
+	@endif
+
+	var URL = '{{ route('areas.index') }}';
 
 	$('.btn-warning').on('click', function(){
 		var id = $(this).data('id');
