@@ -5,6 +5,7 @@
 {{ Asset::add('css/font-awesome.css') }}
 {{ Asset::add('css/style.css') }}
 {{ Asset::add('css/widgets.css') }}
+{{ Asset::add('css/styl/default.css') }}
 {{ Asset::add('js/jquery.js') }}
 {{ Asset::add('js/bootstrap.js') }}
 {{ Asset::add('js/bootbox.min.js') }}
@@ -134,17 +135,19 @@ AREA - SIGEMIPE
 				<div class="modal-body">
 					{{ Form::token() }}
 
+					@if(Session::get('Error_Store'))
 					@if ($errors->any())
-						<div class="alert alert-danger alert-dismissable">
-						 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-								{{ implode('', $errors->all('<li class="error">:message</li>')) }}
-						</div>
+					<div class="alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+					</div>
+					@endif
 					@endif
 
 					<div class="form-group">
-					{{ Form::label('nombre','Nombre', array('class' => 'col-lg-4 control-label'))}}
+						{{ Form::label('nombre','Nombre', array('class' => 'col-lg-4 control-label'))}}
 						<div class="col-lg-8">
-						{{ Form::text('nombre', null, array('placeholder' => 'Nombre del Area', 'class' => 'form-control')) }}						
+							{{ Form::text('nombre', null, array('placeholder' => 'Nombre del Area', 'class' => 'form-control', 'id' => 'nombre_crear')) }}
 						</div>
 					</div>
 				</div>
@@ -167,6 +170,16 @@ AREA - SIGEMIPE
 			</div>
 			{{ Form::model($areas, array('method' => 'PATCH', 'route' => array('areas.update'), 'class' => 'form-horizontal')) }}
 			<div class="modal-body">
+
+				@if(Session::get('Error_Update'))
+				@if ($errors->any())
+				<div class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+				</div>
+				@endif
+				@endif
+
 				<div class="form-group">
 					<label for="id" class="col-lg-4 control-label">Id</label>
 					<div class="col-lg-8">
@@ -176,7 +189,7 @@ AREA - SIGEMIPE
 				<div class="form-group">
 					<label for="nombre" class="col-lg-4 control-label">Nombre</label>
 					<div class="col-lg-8">
-						<input type="text" class="form-control" placeholder="Nombre del Area" name="nombre" id="nombre_editar">
+						{{ Form::text('nombre', null, array('placeholder' => 'Nombre del Area', 'class' => 'form-control', 'id' => 'nombre_editar')) }}
 					</div>
 				</div>
 			</div>
@@ -203,19 +216,42 @@ AREA - SIGEMIPE
 {{ Asset::js() }}
 <script type="text/javascript">
 
-	@if ($errors->any())
-		$('#ModalCrear').modal('show');
-	@endif
+var URL = '{{ route('areas.index') }}';
 
 	@if(Session::get('Guardado'))
-		var n = noty({layout : 'topCenter', type : 'success', text: 'Area Creada Con exito', timeout : 1000});
+	noty({layout : 'topCenter', type : 'success', text: '{{Session::get('Guardado')}}', timeout : 2000, modal: true});
 	@endif
 
-	var URL = '{{ route('areas.index') }}';
+	@if(Session::get('Actualizado'))
+	noty({layout : 'topCenter', type : 'warning', text: '{{Session::get('Actualizado')}}', timeout : 2000, modal: true});
+	@endif
+
+	@if(Session::get('Borrado'))
+	noty({layout : 'topCenter', type : 'error', text: '{{Session::get('Borrado')}}', timeout : 2000, modal: true});
+	@endif
+
+	@if(Session::get('Error_Store'))
+	@if ($errors->any())
+		$('#ModalCrear').modal('show');
+		$('#id_editar').val('');
+		$('#nombre_editar').val('');
+	@endif
+	@endif
+
+	@if(Session::get('Error_Update'))
+	@if ($errors->any())
+	var id ={{Session::get('id')}};
+	$('#id_editar').val(id);
+	$('#ModalEditar form').attr('action', URL+'/'+id);
+	$('#ModalEditar').modal('show');
+	$('#nombre_crear').val('');
+	@endif
+	@endif
 
 	$('.btn-warning').on('click', function(){
 		var id = $(this).data('id');
 		var nombre = $(this).data('nombre');
+		$('#ModalEditar  .alert  button').click()
 		$('#ModalEditar form').attr('action', URL+'/'+id);
 		$('#id_editar').val(id);
 		$('#nombre_editar').val(nombre);
@@ -243,10 +279,6 @@ AREA - SIGEMIPE
 				}
 			}
 		});
-		/*bootbox.confirm('Realmente quiere eliminar el area con Id: ' + id,  function(result){
-
-			console.log(result);
-		});*/
-});
+	});
 </script>
 @stop
