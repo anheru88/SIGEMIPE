@@ -17,7 +17,7 @@ class CreateUsuariosTable extends Migration {
 			$table->string('username', 100);
 			$table->string('email', 100);
 			$table->string('password');
-			$table->string('foto');
+			$table->string('imagen');
 			$table->enum('rol', array('Admin', 'Usuario'));
 			$table->boolean('activo');
 			$table->unsignedInteger('estado');
