@@ -29,14 +29,17 @@ class AreaController extends BaseController {
 		if($validation->passes())
 		{
 			$area = new Area;
-			$area->create($input);
+			$nuevo = $area->create($input);
 
-			return Redirect::route('areas.index')
-					->with('Guardado', 'Se creo una nueva area.');
+			$areas = Area::where('estado', '=', '1')->paginate(10);
+			$pagina = $areas->getLastPage();
+			
+			return Redirect::to('/areas?page='.$pagina)
+			->with('Guardado', 'Se creo el area con id: <strong>'.$nuevo->id.'</strong> <br/> Nombre: <strong>'.$nuevo->nombre.'</strong>');
 
 		}else{
-			$messages = $validation->messages();
-			return Redirect::route('areas.index')
+			return Redirect::back()
+			->with('Error_Store', 'Revisar las validaciones.')
 			->withInput()
 			->withErrors($validation);
 		}
@@ -51,7 +54,7 @@ class AreaController extends BaseController {
 	public function update($id)
 	{
 		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Area::$rules);
+		$validation = Validator::make($input, Area::$rules, Area::$messages);
 
 		if($validation->passes())
 		{
@@ -59,10 +62,17 @@ class AreaController extends BaseController {
 			$area = Area::find($id);
 			$area->update($input);
 
-			return Redirect::back();
+			return Redirect::back()
+			->with('Actualizado', 'Se actualizo el area con id: <strong>'.$area->id.'</strong> <br/><strong> '.$area->nombre.'</strong>');
+		}else{
+			return Redirect::back()
+			->with('Error_Update', 'Revisar las validaciones.')
+			->with('id', $id)
+			->withInput()
+			->withErrors($validation);
 		}
 		
-		return Redirect::home();
+		
 	}
 
 	/**
@@ -76,7 +86,8 @@ class AreaController extends BaseController {
 		$area = Area::find($id);
 		$area->estado = 3;
 		$area->save();
-		return Redirect::back();
+		return Redirect::back()
+		->with('Borrado', 'Se Borro el area con id: <strong>'.$area->id.'</strong> <br/> Nombre : <strong>'.$area->nombre.'</strong>');
 	}
 
 }
