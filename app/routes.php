@@ -23,7 +23,9 @@ Route::resource('authentication' , 'AuthenticationController', ['only' => ['stor
 
 Route::group(array('before' => 'auth'), function(){
 	
-	Route::resource('area', 'AreaController');
+	Route::resource('areas', 'AreaController', ['only' => ['index', 'store', 'update', 'destroy']]);
+
+	Route::resource('usuarios', 'UsuarioController');
 
 	Route::get('/', ['as' => 'home',  function()
 	{
@@ -31,4 +33,3 @@ Route::group(array('before' => 'auth'), function(){
 	}]);
 
 });
-

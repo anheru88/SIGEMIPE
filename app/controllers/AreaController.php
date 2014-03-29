@@ -15,16 +15,6 @@ class AreaController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-        return View::make('areas.created');
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
@@ -34,57 +24,25 @@ class AreaController extends BaseController {
 		$input = Input::all();
 		$input['estado'] = 1;
 		
-		$validation = Validator::make($input, Area::$rules);
+		$validation = Validator::make($input, Area::$rules, Area::$messages);
 
 		if($validation->passes())
 		{
 			$area = new Area;
-			$area->create($input);
+			$nuevo = $area->create($input);
 
-			return Redirect::back();
+			$areas = Area::where('estado', '=', '1')->paginate(10);
+			$pagina = $areas->getLastPage();
+			
+			return Redirect::to('/areas?page='.$pagina)
+			->with('Guardado', 'Se creo el area con id: <strong>'.$nuevo->id.'</strong> <br/> Nombre: <strong>'.$nuevo->nombre.'</strong>');
 
 		}else{
-
-			$messages = $validation->messages();
-			return Redirect::back();
+			return Redirect::back()
+			->with('Error_Store', 'Revisar las validaciones.')
+			->withInput()
+			->withErrors($validation);
 		}
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-       $area = Area::find($id);
-
-       if((is_null($area)) or ($area->estado != 1))
-       {
-       		return "Este elemento no existe";
-       }
-
-       return $area->toJson();
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		$area = Area::find($id);
-
-		if(is_null($area))
-		{
-			return Redirect::route('area.index');
-		}
-        
-        //return Redirect::back()->with('edit', $area);
-        return View::make('area.edit', compact('area'));
 	}
 
 	/**
@@ -96,7 +54,7 @@ class AreaController extends BaseController {
 	public function update($id)
 	{
 		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Area::$rules);
+		$validation = Validator::make($input, Area::$rules, Area::$messages);
 
 		if($validation->passes())
 		{
@@ -104,10 +62,17 @@ class AreaController extends BaseController {
 			$area = Area::find($id);
 			$area->update($input);
 
-			return Redirect::back();
+			return Redirect::back()
+			->with('Actualizado', 'Se actualizo el area con id: <strong>'.$area->id.'</strong> <br/><strong> '.$area->nombre.'</strong>');
+		}else{
+			return Redirect::back()
+			->with('Error_Update', 'Revisar las validaciones.')
+			->with('id', $id)
+			->withInput()
+			->withErrors($validation);
 		}
 		
-		return Redirect::home();
+		
 	}
 
 	/**
@@ -121,7 +86,8 @@ class AreaController extends BaseController {
 		$area = Area::find($id);
 		$area->estado = 3;
 		$area->save();
-		return Redirect::back();
+		return Redirect::back()
+		->with('Borrado', 'Se Borro el area con id: <strong>'.$area->id.'</strong> <br/> Nombre : <strong>'.$area->nombre.'</strong>');
 	}
 
 }

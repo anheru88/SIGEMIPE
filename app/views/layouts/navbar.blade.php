@@ -15,7 +15,7 @@
 			<ul class="nav navbar-nav pull-right">
 				<li class="dropdown pull-right">            
 					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-						<i class="icon-user"></i> {{ Auth::user()->username }} <b class="caret"></b>              
+						<img src="{{ Auth::user()->imagen }}" alt="perfil" class="profile"/>	{{ Auth::user()->username }} <b class="caret"></b>              
 					</a>
 
 					<!-- Dropdown menu -->
