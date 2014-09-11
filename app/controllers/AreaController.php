@@ -10,7 +10,7 @@ class AreaController extends BaseController {
 	 */
 	public function index()
 	{
-		$areas = Area::where('estado', '=', '1')->paginate(10);
+		$areas = Area::where('estado', '=', '1')->paginate(20);
 		return View::make('area.index', compact('areas'));
 	}
 

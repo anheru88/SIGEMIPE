@@ -9,7 +9,6 @@
 {{ Asset::add('js/bootstrap.js') }}
 {{ Asset::add('js/bootbox.min.js') }}
 {{ Asset::add('js/custom.js') }}
-
 @stop
 
 @section('title')
